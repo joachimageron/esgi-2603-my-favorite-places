@@ -1,5 +1,9 @@
 FROM node:lts-alpine
 
+LABEL org.opencontainers.image.source=https://github.com/aleygues/esgi-2603-my-favorite-places
+LABEL org.opencontainers.image.description="MFP Server"
+LABEL org.opencontainers.image.licenses=MIT
+
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./

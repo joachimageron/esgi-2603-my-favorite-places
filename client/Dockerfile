@@ -13,6 +13,10 @@ RUN pnpm run build
 # Production stage
 FROM nginx:alpine as production-stage
 
+LABEL org.opencontainers.image.source=https://github.com/aleygues/esgi-2603-my-favorite-places
+LABEL org.opencontainers.image.description="MFP Client"
+LABEL org.opencontainers.image.licenses=MIT
+
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
