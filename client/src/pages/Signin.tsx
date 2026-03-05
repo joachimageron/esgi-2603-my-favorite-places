@@ -22,7 +22,7 @@ export function SigninPage() {
 
       if (meResult.data?.item?.id) {
         localStorage.setItem("token", data?.token);
-        sessionStorage.setItem("user", meResult.data?.item);
+        sessionStorage.setItem("user", JSON.stringify(meResult.data?.item));
         toast.success("You are connected");
         location.href = "/";
       } else {
