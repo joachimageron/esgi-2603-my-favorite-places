@@ -1,0 +1,44 @@
+services:
+  server:
+    build: ./server
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=test
+      - DB_NAME=myfavoriteplaces
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - app-network
+
+  client:
+    build: ./client
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+    restart: always
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=myfavoriteplaces
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  db-data:
+
+
+networks:
+  app-network:
