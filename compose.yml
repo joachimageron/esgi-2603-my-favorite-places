@@ -9,20 +9,34 @@ services:
       - DB_PASSWORD=test
       - DB_NAME=myfavoriteplaces
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     restart: always
     networks:
       - app-network
+    healthcheck:
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
 
   client:
     build: ./client
     ports:
       - "5173:80"
     depends_on:
-      - server
+      server:
+        condition: service_healthy
     restart: always
     networks:
       - app-network
+    healthcheck:
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   postgres:
     image: postgres:alpine
@@ -35,6 +49,12 @@ services:
       - db-data:/var/lib/postgresql/data
     networks:
       - app-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d myfavoriteplaces" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
 volumes:
   db-data:

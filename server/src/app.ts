@@ -6,6 +6,11 @@ const app: Application = express();
 // use JSON for req.body
 app.use(express.json());
 
+// health check endpoint
+app.get("/api/health", (_, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // use the router to answers request on /api
 app.use("/api", apiRouter);
 
