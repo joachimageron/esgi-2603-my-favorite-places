@@ -69,15 +69,37 @@ jobs:
         run: pnpm run build
 
   docker:
-    name: Build Docker images
+    name: Build and push Docker images
     runs-on: ubuntu-latest
     needs: [server, client]
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build server image
-        run: docker build ./server -t mfp-server
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build client image
-        run: docker build ./client -t mfp-client
+      - name: Build and push server image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./server
+          push: ${{ github.event_name == 'push' }}
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/mfp-server:latest
+            ghcr.io/${{ github.repository_owner }}/mfp-server:${{ github.sha }}
+
+      - name: Build and push client image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./client
+          push: ${{ github.event_name == 'push' }}
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/mfp-client:latest
+            ghcr.io/${{ github.repository_owner }}/mfp-client:${{ github.sha }}
