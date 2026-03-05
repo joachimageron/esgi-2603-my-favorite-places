@@ -5,7 +5,7 @@ import { isAuthorized } from "../utils/isAuthorized";
 import { getUserFromRequest } from "../utils/getUserFromRequest";
 import { getDistance } from "../utils/getDistance";
 
-const addressesRouter = Router();
+const addressesRouter: Router = Router();
 
 addressesRouter.post("/", isAuthorized, async (req, res) => {
   const searchWord = req.body.searchWord;

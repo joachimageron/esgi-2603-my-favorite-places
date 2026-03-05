@@ -1,7 +1,7 @@
-import express from "express";
+import express, { type Application } from "express";
 import apiRouter from "./router";
 
-const app = express();
+const app: Application = express();
 
 // use JSON for req.body
 app.use(express.json());

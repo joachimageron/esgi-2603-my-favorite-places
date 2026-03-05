@@ -7,7 +7,7 @@ import { getUserFromRequest } from "../utils/getUserFromRequest";
 
 const tokenSecretKey = process.env.SESSION_SECRET || "superlongstring";
 
-const usersRouter = Router();
+const usersRouter: Router = Router();
 
 usersRouter.post("/", async (req, res) => {
   const email = req.body.email;
