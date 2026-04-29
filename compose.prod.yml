@@ -1,6 +1,6 @@
 services:
   server:
-    build: ./server
+    image: ghcr.io/joachimageron/mfp-server:latest
     ports:
       - "3000:3000"
     environment:
@@ -22,7 +22,7 @@ services:
       start_period: 15s
 
   client:
-    build: ./client
+    image: ghcr.io/joachimageron/mfp-client:latest
     ports:
       - "5173:80"
     depends_on:
