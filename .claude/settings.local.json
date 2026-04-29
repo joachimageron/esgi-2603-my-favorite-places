@@ -12,7 +12,10 @@
       "Bash(gh pr *)",
       "Bash(git stash *)",
       "Bash(docker pull *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git pull *)",
+      "Bash(gh run *)",
+      "Bash(docker compose *)"
     ]
   }
 }
